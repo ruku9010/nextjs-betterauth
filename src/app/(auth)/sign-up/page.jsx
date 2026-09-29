@@ -19,7 +19,7 @@ const SignUpPage = () => {
     const data = Object.fromEntries(formData.entries());
     // Convert FormData to plain object
     
-    // console.log('data from the form', data);
+    console.log('data from the form', data);
     
     const { data: resData, error } = await signUp.email({
     name: data.name, // required, The name of the user.
