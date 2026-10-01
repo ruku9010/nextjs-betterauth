@@ -13,34 +13,39 @@ import {
 } from "@heroui/react";
 import { signIn } from "@/lib/auth-client";
 
-
 const SignInPage = () => {
-    const [isVisible, setIsVisible] = useState(false);
-   
-        const onSubmit = async (e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const data = Object.fromEntries(formData.entries());
-          // Convert FormData to plain object
-          console.log("form er data", data);
-      
-          const { data: resData, error } = await signIn.email({
-            email: data.email,
-            password: data.password,
-            rememberMe: true,
-            callbackURL: "/",
-          });
-      
-          console.log("after submit", resData, error);
-        };
-      
+  const [isVisible, setIsVisible] = useState(false);
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    // Convert FormData to plain object
+    console.log("form er data", data);
+
+    const { data: resData, error } = await signIn.email({
+      email: data.email,
+      password: data.password,
+      rememberMe: true,
+      callbackURL: "/",
+    });
+
+    console.log("after submit", resData, error);
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const resData = await signIn.social({
+      provider: "google",
+    });
+    console.log(resData);
+  };
+
+  
 
   return (
     <div>
       <h2>Please Sign in</h2>
       <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
-        
         <TextField
           isRequired
           name="email"
@@ -89,6 +94,9 @@ const SignInPage = () => {
           <Button type="reset" variant="secondary">
             Reset
           </Button>
+<br></br>
+          <h3>Or</h3>
+          <Button onClick={handleSignInWithGoogle}>SignIn With Google</Button>
         </div>
       </Form>
     </div>
